@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+public class Problem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        String word;
+        System.out.println("Enter a word: ");
+        word = sc.nextLine();
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            if (ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U' || ch == 'a' || ch == 'e' || ch == 'i'
+                    || ch == 'o' || ch == 'u') {
+                continue;
+            } else {
+                System.out.print(ch);
+            }
+
+        }
+    }
+}
