@@ -1,0 +1,60 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class KeyboardRow {
+
+    // Precomputed array mapping each letter to its keyboard row index
+    // Index 0 = 'A'/'a', Index 1 = 'B'/'b', ..., Index 25 = 'Z'/'z'
+    private static final int[] ROW_MAP = new int[26];
+
+    static {
+        String[] rows = {
+            "qwertyuiop", // Row 0
+            "asdfghjkl",  // Row 1
+            "zxcvbnm"     // Row 2
+        };
+        
+        // Populate the lookup array for O(1) character-to-row resolution
+        for (int rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+            for (char c : rows[rowIndex].toCharArray()) {
+                ROW_MAP[c - 'a'] = rowIndex;
+            }
+        }
+    }
+
+    /**
+     * Time Complexity: O(N) where N is the total number of characters in all words.
+     * Space Complexity: O(1) auxiliary space (excluding the output list).
+     */
+    public String[] findWords(String[] words) {
+        List<String> validWords = new ArrayList<>();
+
+        for (String word : words) {
+            if (isValidSingleRowWord(word)) {
+                validWords.add(word);
+            }
+        }
+
+        // Convert the dynamic list back to a primitive array
+        return validWords.toArray(new String[0]);
+    }
+
+    private boolean isValidSingleRowWord(String word) {
+        if (word == null || word.isEmpty()) {
+            return true;
+        }
+
+        // Determine the target row using the very first character (case-insensitive)
+        int targetRow = ROW_MAP[Character.toLowerCase(word.charAt(0)) - 'a'];
+
+        // Verify if all remaining characters belong to the same target row
+        for (int i = 1; i < word.length(); i++) {
+            int currentRow = ROW_MAP[Character.toLowerCase(word.charAt(i)) - 'a'];
+            if (currentRow != targetRow) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
